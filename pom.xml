@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>0302-ws-javaconfig-service</module>
+        <module>0303-ws-boot-service</module>
     </modules>
 
     <parent>
