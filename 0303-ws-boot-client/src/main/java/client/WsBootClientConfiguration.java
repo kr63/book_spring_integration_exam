@@ -5,6 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
+import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.transport.http.HttpComponentsMessageSender;
 
 @Configuration
@@ -18,18 +19,22 @@ public class WsBootClientConfiguration {
     }
 
     @Bean
-    public WebServiceTemplate webServiceTemplate(Jaxb2Marshaller marshaller) {
+    public WebServiceTemplate webServiceTemplate(Jaxb2Marshaller marshaller, UserInterceptor userInterceptor) {
         WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
         webServiceTemplate.setMarshaller(marshaller);
         webServiceTemplate.setUnmarshaller(marshaller);
-        webServiceTemplate
-                .setDefaultUri("http://localhost:10303/0303-ws-boot-service");
+        webServiceTemplate.setDefaultUri("http://localhost:10303/0303-ws-boot-service");
 
-        HttpComponentsMessageSender messageSender =
-                new HttpComponentsMessageSender();
+        // message sender
+        HttpComponentsMessageSender messageSender = new HttpComponentsMessageSender();
         messageSender.setConnectionTimeout(100);
         messageSender.setMaxTotalConnections(10);
         webServiceTemplate.setMessageSender(messageSender);
+
+        // setup interceptor
+        ClientInterceptor[] interceptors = new ClientInterceptor[]{userInterceptor};
+        webServiceTemplate.setInterceptors(interceptors);
+
         return webServiceTemplate;
     }
 }
