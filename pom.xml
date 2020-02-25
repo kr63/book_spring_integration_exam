@@ -12,6 +12,7 @@
         <module>0301-ws-xmlconfig-service</module>
         <module>0302-ws-javaconfig-service</module>
         <module>0303-ws-boot-service</module>
+        <module>0303-ws-boot-client</module>
     </modules>
 
     <parent>
